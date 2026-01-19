@@ -4,5 +4,7 @@
   "id": "ppd",
   "discord_ga": "12",
   "discord_zga": "12",
-  "discord_me": "23"
+  "discord_me": "23",
+  "auto_alias_ru": true,
+  "auto_update_info": true
 }

@@ -1,11 +1,766 @@
 [
   {
-    "id": "1",
-    "type": "command",          
-    "trigger": ".res",           
-    "aliases": [".рес"],         
-    "response": "/rescue ",      
-    "enabled": true,
-    "ask_for": []                
+    "trigger": ".лспд",
+    "text": "/ctp 429 -980 30.50"
+  },
+  {
+    "trigger": ".бол",
+    "text": "/ctp 287.70 -578.35 50"
+  },
+  {
+    "trigger": ".шд",
+    "text": "/ctp -434.87 6024.54 31.50"
+  },
+  {
+    "trigger": ".фз",
+    "text": "/ctp -2336 3257 32.50"
+  },
+  {
+    "trigger": ".мэр",
+    "text": "/ctp -534.70 -222.07 37.60"
+  },
+  {
+    "trigger": ".визл",
+    "text": "/ctp -593 -929 24"
+  },
+  {
+    "trigger": ".фиб",
+    "text": "/ctp 2527 -377 93"
+  },
+  {
+    "trigger": ".бал",
+    "text": "/ctp -70.06 -1824.64 26.94"
+  },
+  {
+    "trigger": ".ваг",
+    "text": "/ctp 967 -1817 31"
+  },
+  {
+    "trigger": ".фэм",
+    "text": "/ctp -204.29 -1513.69 31.60"
+  },
+  {
+    "trigger": ".бладс",
+    "text": "/ctp 496 -1330 29.40"
+  },
+  {
+    "trigger": ".мара",
+    "text": "/ctp 1437.61 -1509.64 62.40"
+  },
+  {
+    "trigger": ".лкн",
+    "text": "/ctp 1385 1154 114.40"
+  },
+  {
+    "trigger": ".рм",
+    "text": "/ctp -1526 858 181"
+  },
+  {
+    "trigger": ".як",
+    "text": "/ctp -1556.36 113.07 57"
+  },
+  {
+    "trigger": ".мекс",
+    "text": "/ctp 381.03 23.12 91.40"
+  },
+  {
+    "trigger": ".ам",
+    "text": "/ctp -1895.23 2027.19 141"
+  },
+  {
+    "trigger": ".лост",
+    "text": "/ctp 969.84 -128.40 74.40"
+  },
+  {
+    "trigger": ".аод",
+    "text": "/ctp 1995.99 3062.44 47.06"
+  },
+  {
+    "trigger": ".груб",
+    "text": "/ctp -3022 105 11.30"
+  },
+  {
+    "trigger": ".клаб",
+    "text": "/ctp 1588.65 6445.38 25"
+  },
+  {
+    "trigger": ".рич",
+    "text": "/ctp -1302.49 294.52 64.50"
+  },
+  {
+    "trigger": ".манор",
+    "text": "/ctp -58.20 343.73 111.80"
+  },
+  {
+    "trigger": ".конт",
+    "text": "/ctp -1865.51 -355.96 57"
+  },
+  {
+    "trigger": ".хум",
+    "text": "/ctp 3569.54 3789.48 30"
+  },
+  {
+    "trigger": ".мейз",
+    "text": "/ctp -75 -818 326"
+  },
+  {
+    "trigger": ".каз",
+    "text": "/ctp 1110.117 217.0512 -49.56448"
+  },
+  {
+    "trigger": ".аш",
+    "text": "/ctp -620 -2264 6"
+  },
+  {
+    "trigger": ".гг",
+    "text": "/ctp -257 -2023 30"
+  },
+  {
+    "trigger": ".бургер",
+    "text": "/ctp -1171.31 -890.20 13.90"
+  },
+  {
+    "trigger": ".багама",
+    "text": "/ctp -1391.30 -585.35 30"
+  },
+  {
+    "trigger": ".кайо",
+    "text": "/ctp 4488.58 -4493.52 4"
+  },
+  {
+    "trigger": ".авиа",
+    "text": "/ctp 3035.21 -4688.55 15"
+  },
+  {
+    "trigger": ".мол",
+    "text": "/ctp 61.67 -1751.80 47"
+  },
+  {
+    "trigger": ".трас",
+    "text": "d"
+  },
+  {
+    "trigger": ".аук",
+    "text": "/ctp -833 -699.50 27"
+  },
+  {
+    "trigger": ".бокс",
+    "text": "/ctp 8.56 -1658.55 28.71"
+  },
+  {
+    "trigger": ".бар",
+    "text": "/ctp -305.09 6259.59 30.92"
+  },
+  {
+    "trigger": ".бк",
+    "text": "/ctp 500.44 109.79 96.49"
+  },
+  {
+    "trigger": ".ванила",
+    "text": "/ctp 131.33 -1302.93 29.23"
+  },
+  {
+    "trigger": ".починка",
+    "text": "/ctp -1430.45 -450.5 35.91"
+  },
+  {
+    "trigger": ".лск4",
+    "text": "/ctp 1175.47 2671.33 37.85"
+  },
+  {
+    "trigger": ".ачек",
+    "text": "/ajailcheck"
+  },
+  {
+    "trigger": ".х",
+    "text": "/hp 100",
+    "cursor_back": 4
+  },
+  {
+    "trigger": "/sm",
+    "text": "/setmaterials"
+  },
+  {
+    "trigger": ".ыь",
+    "text": "/setmaterials"
+  },
+  {
+    "trigger": "/tn",
+    "text": "/tempname"
+  },
+  {
+    "trigger": ".ет",
+    "text": "/tempname"
+  },
+  {
+    "trigger": ".яяв",
+    "text": "/zzdebug"
+  },
+  {
+    "trigger": "/zzd",
+    "text": "/zzdebug"
+  },
+  {
+    "trigger": "/amph",
+    "text": "/addamphitheater"
+  },
+  {
+    "trigger": ".фьзр",
+    "text": "/addamphitheater"
+  },
+  {
+    "trigger": "/ramph",
+    "text": "/removeamphitheater"
+  },
+  {
+    "trigger": ".кфьзр",
+    "text": "/removeamphitheater"
+  },
+  {
+    "trigger": "/gzone",
+    "text": "/togglegreenzone"
+  },
+  {
+    "trigger": ".пящту",
+    "text": "/togglegreenzone"
+  },
+  {
+    "trigger": "/mcheck",
+    "text": "/mutecheck"
+  },
+  {
+    "trigger": ".ьсрусл",
+    "text": "/mutecheck"
+  },
+  {
+    "trigger": ".ьгеусрусл",
+    "text": "/mutecheck"
+  },
+  {
+    "trigger": ".гтофшд",
+    "text": "/unjail"
+  },
+  {
+    "trigger": ".цфкт",
+    "text": "/warn"
+  },
+  {
+    "trigger": "/ld",
+    "text": "/lastdriver"
+  },
+  {
+    "trigger": ".дв",
+    "text": "/lastdriver"
+  },
+  {
+    "trigger": "/af",
+    "text": "/ainfect"
+  },
+  {
+    "trigger": ".фа",
+    "text": "/ainfect"
+  },
+  {
+    "trigger": "/sk",
+    "text": "/skick"
+  },
+  {
+    "trigger": ".ыл",
+    "text": "/skick"
+  },
+  {
+    "trigger": "/k",
+    "text": "/kick"
+  },
+  {
+    "trigger": ".л",
+    "text": "/kick"
+  },
+  {
+    "trigger": "/ai",
+    "text": "/auninvite"
+  },
+  {
+    "trigger": ".фш",
+    "text": "/auninvite"
+  },
+  {
+    "trigger": ".аи",
+    "text": "/fb"
+  },
+  {
+    "trigger": ".гтьгеу",
+    "text": "/unmute"
+  },
+  {
+    "trigger": ".пуезшт",
+    "text": "/getpin"
+  },
+  {
+    "trigger": ".пшв",
+    "text": "/gid"
+  },
+  {
+    "trigger": ".фвьшты",
+    "text": "/admins"
+  },
+  {
+    "trigger": ".фштаусе",
+    "text": "/ainfect"
+  },
+  {
+    "trigger": ".умутещт",
+    "text": "/eventon"
+  },
+  {
+    "trigger": ".умутещаа",
+    "text": "/eventoff"
+  },
+  {
+    "trigger": ".пц",
+    "text": "/gw"
+  },
+  {
+    "trigger": ".мур",
+    "text": "/veh"
+  },
+  {
+    "trigger": ".ашчсфк",
+    "text": "/fixcar"
+  },
+  {
+    "trigger": ".уьздуфвук",
+    "text": "/templeader"
+  },
+  {
+    "trigger": "/tl",
+    "text": "/templeader"
+  },
+  {
+    "trigger": ".ед",
+    "text": "/templeader"
+  },
+  {
+    "trigger": ".ылшсл",
+    "text": "/skick"
+  },
+  {
+    "trigger": ".кузфшк",
+    "text": "/repair"
+  },
+  {
+    "trigger": ".фгтшмшеу",
+    "text": "/auninvite"
+  },
+  {
+    "trigger": ".учсфк",
+    "text": "/excar"
+  },
+  {
+    "trigger": ".агуд",
+    "text": "/fuel"
+  },
+  {
+    "trigger": ".згддекгтл",
+    "text": "/pulltunk"
+  },
+  {
+    "trigger": ".акууя",
+    "text": "/freez"
+  },
+  {
+    "trigger": ".езсфк",
+    "text": "/tpcar"
+  },
+  {
+    "trigger": ".дфыевкшмук",
+    "text": "/lastdriver"
+  },
+  {
+    "trigger": ".вудшеуь",
+    "text": "/delitem"
+  },
+  {
+    "trigger": "/gc",
+    "text": "/getcar"
+  },
+  {
+    "trigger": ".пс",
+    "text": "/getcar"
+  },
+  {
+    "trigger": ".фв",
+    "text": "/admins"
+  },
+  {
+    "trigger": "/ad",
+    "text": "/admins"
+  },
+  {
+    "trigger": ".з",
+    "text": "/players"
+  },
+  {
+    "trigger": "/p",
+    "text": "/players"
+  },
+  {
+    "trigger": ".здфнукы",
+    "text": "/players"
+  },
+  {
+    "trigger": ".рес",
+    "text": "/rescue"
+  },
+  {
+    "trigger": ".ез",
+    "text": "/tp"
+  },
+  {
+    "trigger": ".ызус",
+    "text": "/spec"
+  },
+  {
+    "trigger": ".ызусщаа",
+    "text": "/specoff {Enter} {F5}"
+  },
+  {
+    "trigger": ".фыьы",
+    "text": "/asms"
+  },
+  {
+    "trigger": ".ф",
+    "text": "/a"
+  },
+  {
+    "trigger": "/sp",
+    "text": "/spec"
+  },
+  {
+    "trigger": ".ыз",
+    "text": "/spec"
+  },
+  {
+    "trigger": "/so",
+    "text": "/specoff {Enter} {F5}"
+  },
+  {
+    "trigger": ".ыщ",
+    "text": "/specoff {Enter} {F5}"
+  },
+  {
+    "trigger": "/kill",
+    "text": "/hp 0",
+    "cursor_back": 2
+  },
+  {
+    "trigger": ".лшдд",
+    "text": "/hp 0",
+    "cursor_back": 2
+  },
+  {
+    "trigger": ".штсфк",
+    "text": "/incar"
+  },
+  {
+    "trigger": ".пр",
+    "text": "/gh"
+  },
+  {
+    "trigger": ".штм",
+    "text": "/inv"
+  },
+  {
+    "trigger": ".шв",
+    "text": "/id"
+  },
+  {
+    "trigger": ".рз",
+    "text": "/hp"
+  },
+  {
+    "trigger": ".од",
+    "text": "/ajail"
+  },
+  {
+    "trigger": ".фофшд",
+    "text": "/ajail"
+  },
+  {
+    "trigger": ".лшсл",
+    "text": "/kick"
+  },
+  {
+    "trigger": ".вд",
+    "text": "/dl"
+  },
+  {
+    "trigger": ".уыз",
+    "text": "/esp"
+  },
+  {
+    "trigger": ".пуесфк",
+    "text": "/getcar"
+  },
+  {
+    "trigger": ".ифт",
+    "text": "/ban"
+  },
+  {
+    "trigger": ".вудмур",
+    "text": "/delveh"
+  },
+  {
+    "trigger": ".ьез",
+    "text": "/mtp"
+  },
+  {
+    "trigger": ".фмур",
+    "text": "/aveh"
+  },
+  {
+    "trigger": ".рфквифт",
+    "text": "/hardban"
+  },
+  {
+    "trigger": ".ьгеу",
+    "text": "/mute"
+  },
+  {
+    "trigger": ".ср",
+    "text": "/chide"
+  },
+  {
+    "trigger": "/ch",
+    "text": "/chide"
+  },
+  {
+    "trigger": ".куысгу",
+    "text": "/rescue"
+  },
+  {
+    "trigger": ".ыуевшь",
+    "text": "/setdim"
+  },
+  {
+    "trigger": "/sd",
+    "text": "/setdim"
+  },
+  {
+    "trigger": ".ыв",
+    "text": "/setdim"
+  },
+  {
+    "trigger": ".сршву",
+    "text": "/chide"
+  },
+  {
+    "trigger": ".афк",
+    "text": "/a afk мин",
+    "cursor_back": 4
+  },
+  {
+    "trigger": ".фгтсгаа",
+    "text": "/auncuff"
+  },
+  {
+    "trigger": ".фсгаа",
+    "text": "/acuff"
+  },
+  {
+    "trigger": ".акууяф",
+    "text": "/freeza"
+  },
+  {
+    "trigger": ".ызфцтсфк",
+    "text": "/spawncar"
+  },
+  {
+    "trigger": "/sc",
+    "text": "/spawncar"
+  },
+  {
+    "trigger": ".ыс",
+    "text": "/spawncar"
+  },
+  {
+    "trigger": ".хард",
+    "text": "/hardban 8888 Cheats",
+    "cursor_back": 12
+  },
+  {
+    "trigger": ".хард9",
+    "text": "/hardban 9999 Cheats",
+    "cursor_back": 12
+  },
+  {
+    "trigger": ".секс",
+    "text": "/warn Секс. аним. без отыгровок",
+    "cursor_back": 26
+  },
+  {
+    "trigger": ".нрд",
+    "text": "/ajail 15 nonRP Drive",
+    "cursor_back": 15
+  },
+  {
+    "trigger": ".нрд25",
+    "text": "/ajail 25 nonRP Drive",
+    "cursor_back": 15
+  },
+  {
+    "trigger": ".нрд45",
+    "text": "/ajail 45 nonRP Drive",
+    "cursor_back": 15
+  },
+  {
+    "trigger": ".нрд70",
+    "text": "/ajail 70 nonRP Drive",
+    "cursor_back": 15
+  },
+  {
+    "trigger": ".нрд90",
+    "text": "/ajail 90 nonRP Drive",
+    "cursor_back": 15
+  },
+  {
+    "trigger": ".нрп",
+    "text": "/ajail 15 nonRP Поведение",
+    "cursor_back": 19
+  },
+  {
+    "trigger": ".нрп25",
+    "text": "/ajail 25 nonRP Поведение",
+    "cursor_back": 19
+  },
+  {
+    "trigger": ".нрп45",
+    "text": "/ajail 45 nonRP Поведение",
+    "cursor_back": 19
+  },
+  {
+    "trigger": ".нрп70",
+    "text": "/ajail 70 nonRP Поведение",
+    "cursor_back": 19
+  },
+  {
+    "trigger": ".нрп90",
+    "text": "/ajail 90 nonRP Поведение",
+    "cursor_back": 19
+  },
+  {
+    "trigger": ".дб",
+    "text": "/ajail 30 DB",
+    "cursor_back": 6
+  },
+  {
+    "trigger": ".дб45",
+    "text": "/ajail 45 DB",
+    "cursor_back": 6
+  },
+  {
+    "trigger": ".дб60",
+    "text": "/ajail 60 DB",
+    "cursor_back": 6
+  },
+  {
+    "trigger": ".дб75",
+    "text": "/ajail 75 DB",
+    "cursor_back": 6
+  },
+  {
+    "trigger": ".дб90",
+    "text": "/ajail 90 DB",
+    "cursor_back": 6
+  },
+  {
+    "trigger": ".дм",
+    "text": "/ajail 100 DM",
+    "cursor_back": 7
+  },
+  {
+    "trigger": ".пг",
+    "text": "/ajail 35 PG",
+    "cursor_back": 6
+  },
+  {
+    "trigger": ".пг55",
+    "text": "/ajail 55 PG",
+    "cursor_back": 6
+  },
+  {
+    "trigger": ".пг75",
+    "text": "/ajail 75 PG",
+    "cursor_back": 6
+  },
+  {
+    "trigger": ".пг90",
+    "text": "/ajail 90 PG",
+    "cursor_back": 6
+  },
+  {
+    "trigger": ".муз",
+    "text": "/mute 30 Music in ZZ",
+    "cursor_back": 15
+  },
+  {
+    "trigger": ".муз60",
+    "text": "/mute 60 Music in ZZ",
+    "cursor_back": 15
+  },
+  {
+    "trigger": ".смник",
+    "text": "/ajail 720 Смените Имя_Фамилия согласно правилам сервера",
+    "cursor_back": 50
+  },
+  {
+    "trigger": ".ккапт",
+    "text": "/kick Помеха капту",
+    "cursor_back": 13
+  },
+  {
+    "trigger": ".кбиз",
+    "text": "/kick Помеха бизвару",
+    "cursor_back": 15
+  },
+  {
+    "trigger": ".квзп",
+    "text": "/kick Помеха ВЗП",
+    "cursor_back": 11
+  },
+  {
+    "trigger": ".квзм",
+    "text": "/kick Помеха ВЗМ",
+    "cursor_back": 11
+  },
+  {
+    "trigger": ".взм45",
+    "text": "/ajail 35 Нарушение правил ВЗМ(Стрельба в/из нейтрала)",
+    "cursor_back": 24
+  },
+  {
+    "trigger": ".взм90",
+    "text": "/ajail 90 Нарушение правил ВЗМ",
+    "cursor_back": 25
+  },
+  {
+    "trigger": ".оса30",
+    "text": "/hardban 30 Оскорбление администрации",
+    "cursor_back": 29
+  },
+  {
+    "trigger": ".оса15",
+    "text": "/hardban 14 Оскорбление администрации",
+    "cursor_back": 29
+  },
+  {
+    "trigger": ".оса10",
+    "text": "/hardban 10 Оскорбление администрации",
+    "cursor_back": 29
+  },
+  {
+    "trigger": ".оса",
+    "text": "/hardban 7 Оскорбление администрации",
+    "cursor_back": 28
   }
 ]
