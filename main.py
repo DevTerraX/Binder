@@ -53,6 +53,14 @@ THEME = {
     "header_to": "#1a0f12",
 }
 
+FONT_FAMILY = "Segoe UI"
+BASE_FONT_SIZE = 11
+TITLE_FONT_SIZE = 16
+SECTION_FONT_SIZE = 12
+HEADER_FONT_SIZE = 18
+SMALL_FONT_SIZE = 10
+NAV_WIDTH = 230
+
 
 def ensure_json_file(path, default_data):
     if not os.path.exists(path):
@@ -115,7 +123,7 @@ def style_entry(widget):
     )
     widget.configure(highlightbackground=THEME["border"])
     try:
-        widget.configure(font=("Segoe UI", 11))
+        widget.configure(font=(FONT_FAMILY, BASE_FONT_SIZE))
     except tk.TclError:
         pass
 
@@ -132,7 +140,7 @@ def style_listbox(widget):
         activestyle="none",
     )
     try:
-        widget.configure(font=("Segoe UI", 11))
+        widget.configure(font=(FONT_FAMILY, BASE_FONT_SIZE))
     except tk.TclError:
         pass
 
@@ -148,7 +156,7 @@ def style_text(widget):
         highlightcolor=THEME["accent"],
     )
     try:
-        widget.configure(font=("Segoe UI", 11))
+        widget.configure(font=(FONT_FAMILY, BASE_FONT_SIZE))
     except tk.TclError:
         pass
 
@@ -208,7 +216,7 @@ def blend(color_a, color_b, t):
     return tuple(int(a + (b - a) * t) for a, b in zip(color_a, color_b))
 
 
-class RoundedButton(tk.Canvas):
+class RoundedButton(ttk.Button):
     def __init__(
         self,
         parent,
@@ -224,122 +232,39 @@ class RoundedButton(tk.Canvas):
         radius=12,
         expand_x=False,
         height=None,
+        width=None,
     ):
-        super().__init__(parent, highlightthickness=0, bd=0, bg=canvas_bg)
-        self._text = text
-        self._command = command
-        self._bg = bg
-        self._fg = fg
-        self._hover_bg = hover_bg
-        self._active_bg = active_bg
-        self._radius = radius
-        self._padding = padding
-        self._font = font or tkfont.Font(family="Segoe UI", size=10)
-        self._expand_x = expand_x
-        self._height_override = height
-        self._current_bg = bg
-        self._text_id = None
-        self._shape_id = None
-        self._draw()
-        self.bind("<Enter>", self._on_enter)
-        self.bind("<Leave>", self._on_leave)
-        self.bind("<ButtonPress-1>", self._on_press)
-        self.bind("<ButtonRelease-1>", self._on_release)
-        if self._expand_x:
-            parent.bind("<Configure>", self._on_parent_resize, add="+")
+        self._style = ttk.Style(parent)
+        self._style_name = f"App{hex(id(self))}.TButton"
+        self._font = font or tkfont.Font(family=FONT_FAMILY, size=BASE_FONT_SIZE)
+        self._configure_style(bg, fg, hover_bg, active_bg, padding)
+        super().__init__(parent, text=text, command=command, style=self._style_name, width=width)
 
-    def _rounded_rect(self, x1, y1, x2, y2, r, **kwargs):
-        points = [
-            x1 + r,
-            y1,
-            x2 - r,
-            y1,
-            x2,
-            y1,
-            x2,
-            y1 + r,
-            x2,
-            y2 - r,
-            x2,
-            y2,
-            x2 - r,
-            y2,
-            x1 + r,
-            y2,
-            x1,
-            y2,
-            x1,
-            y2 - r,
-            x1,
-            y1 + r,
-            x1,
-            y1,
-        ]
-        return self.create_polygon(points, smooth=True, **kwargs)
-
-    def _measure(self):
-        text_width = self._font.measure(self._text)
-        text_height = self._font.metrics("linespace")
-        width = text_width + self._padding[0] * 2
-        height = self._height_override or (text_height + self._padding[1] * 2)
-        return width, height
-
-    def _draw(self, width_override=None):
-        self.delete("all")
-        width, height = self._measure()
-        if width_override:
-            width = max(width_override, width)
-        self.configure(width=width, height=height)
-        self._shape_id = self._rounded_rect(
-            0,
-            0,
-            width,
-            height,
-            self._radius,
-            fill=self._current_bg,
-            outline="",
-        )
-        self._text_id = self.create_text(
-            width / 2,
-            height / 2,
-            text=self._text,
-            fill=self._fg,
+    def _configure_style(self, bg, fg, hover_bg, active_bg, padding):
+        self._style.configure(
+            self._style_name,
+            background=bg,
+            foreground=fg,
+            padding=padding,
+            borderwidth=0,
+            focusthickness=0,
+            relief="flat",
             font=self._font,
         )
-
-    def _on_parent_resize(self, event):
-        self._draw(width_override=event.width)
-
-    def _on_enter(self, _event):
-        self._current_bg = self._hover_bg
-        self._draw(self.winfo_width())
-
-    def _on_leave(self, _event):
-        self._current_bg = self._bg
-        self._draw(self.winfo_width())
-
-    def _on_press(self, _event):
-        self._current_bg = self._active_bg
-        self._draw(self.winfo_width())
-
-    def _on_release(self, event):
-        if self.winfo_containing(event.x_root, event.y_root) == self:
-            if self._command:
-                self._command()
-        self._current_bg = self._hover_bg
-        self._draw(self.winfo_width())
+        self._style.map(
+            self._style_name,
+            background=[("active", hover_bg), ("pressed", active_bg)],
+            foreground=[("active", fg), ("pressed", fg)],
+        )
 
     def set_colors(self, bg, hover_bg, active_bg, fg=None):
-        self._bg = bg
-        self._hover_bg = hover_bg
-        self._active_bg = active_bg
-        if fg:
-            self._fg = fg
-        self._current_bg = bg
-        self._draw(self.winfo_width())
+        if fg is None:
+            fg = self._style.lookup(self._style_name, "foreground")
+        padding = self._style.lookup(self._style_name, "padding")
+        self._configure_style(bg, fg, hover_bg, active_bg, padding)
 
     def set_command(self, command):
-        self._command = command
+        self.configure(command=command)
 
 
 class ToggleSwitch(tk.Canvas):
@@ -435,6 +360,34 @@ class BinderApp:
         self.setup_style()
         self.build_ui()
 
+    def _content_button_chars(self, font, padding):
+        char_width = font.measure("0") if font else 7
+        target_px = NAV_WIDTH
+        pad_px = (padding[0] * 2) if padding else 0
+        width_px = max(60, target_px - pad_px)
+        return max(10, int(width_px / max(1, char_width)))
+
+    def pack_content_button(self, button, pady=4):
+        button.pack(anchor="w", pady=pady)
+        return button
+
+    def _show_variables_form(self, clear=False):
+        if not getattr(self, "variables_form_visible", False):
+            self.variables_form.pack(fill="x", pady=(0, 10))
+            self.variables_form_visible = True
+        if clear:
+            self.var_key.delete(0, tk.END)
+            self.var_value.delete(0, tk.END)
+        self.var_key.focus_set()
+
+    def _toggle_variables_list(self):
+        if self.variables_list_visible:
+            self.variables_list.pack_forget()
+            self.variables_list_visible = False
+        else:
+            self.variables_list.pack(fill="y")
+            self.variables_list_visible = True
+
     def setup_style(self):
         style = ttk.Style(self.root)
         try:
@@ -449,7 +402,12 @@ class BinderApp:
         style.configure("CardBody.TFrame", background=THEME["card"], borderwidth=0, relief="flat")
         style.configure("Subcard.TFrame", background=THEME["card_alt"], borderwidth=0, relief="flat")
 
-        style.configure("TLabel", background=THEME["bg"], foreground=THEME["fg"])
+        style.configure(
+            "TLabel",
+            background=THEME["bg"],
+            foreground=THEME["fg"],
+            font=(FONT_FAMILY, BASE_FONT_SIZE),
+        )
         style.configure("Muted.TLabel", background=THEME["bg"], foreground=THEME["muted"])
         style.configure("Card.TLabel", background=THEME["card"], foreground=THEME["fg"])
         style.configure("CardMuted.TLabel", background=THEME["card"], foreground=THEME["muted"])
@@ -458,19 +416,19 @@ class BinderApp:
             "NavTitle.TLabel",
             background=THEME["panel"],
             foreground=THEME["muted"],
-            font=("Segoe UI", 10, "bold"),
+            font=(FONT_FAMILY, BASE_FONT_SIZE, "bold"),
         )
         style.configure(
             "ScreenTitle.TLabel",
             background=THEME["bg"],
             foreground=THEME["fg"],
-            font=("Georgia", 20, "bold"),
+            font=(FONT_FAMILY, TITLE_FONT_SIZE, "bold"),
         )
         style.configure(
             "Section.TLabel",
             background=THEME["card"],
             foreground=THEME["fg"],
-            font=("Georgia", 12, "bold"),
+            font=(FONT_FAMILY, SECTION_FONT_SIZE, "bold"),
         )
 
         style.configure(
@@ -480,6 +438,7 @@ class BinderApp:
             borderwidth=0,
             focusthickness=0,
             padding=(12, 7),
+            font=(FONT_FAMILY, BASE_FONT_SIZE),
         )
         style.map(
             "TButton",
@@ -494,6 +453,7 @@ class BinderApp:
             focusthickness=0,
             padding=(14, 9),
             anchor="w",
+            font=(FONT_FAMILY, BASE_FONT_SIZE),
         )
         style.map(
             "Nav.TButton",
@@ -508,13 +468,14 @@ class BinderApp:
             focusthickness=0,
             padding=(14, 9),
             anchor="w",
+            font=(FONT_FAMILY, BASE_FONT_SIZE),
         )
         style.map(
             "NavActive.TButton",
             background=[("active", THEME["accent"]), ("pressed", THEME["accent"])],
             foreground=[("active", THEME["fg"]), ("pressed", THEME["fg"])],
         )
-        style.configure("Switcher.TButton", padding=(10, 4))
+        style.configure("Switcher.TButton", padding=(10, 4), font=(FONT_FAMILY, BASE_FONT_SIZE))
         style.configure(
             "SwitcherActive.TButton",
             background=THEME["accent_alt"],
@@ -522,6 +483,7 @@ class BinderApp:
             borderwidth=0,
             focusthickness=0,
             padding=(10, 4),
+            font=(FONT_FAMILY, BASE_FONT_SIZE),
         )
         style.map(
             "SwitcherActive.TButton",
@@ -532,7 +494,7 @@ class BinderApp:
             "Muted.TCheckbutton",
             background=THEME["bg"],
             foreground=THEME["muted"],
-            font=("Segoe UI", 10),
+            font=(FONT_FAMILY, SMALL_FONT_SIZE),
         )
         style.map(
             "Muted.TCheckbutton",
@@ -551,7 +513,7 @@ class BinderApp:
         main.columnconfigure(1, weight=1)
         main.rowconfigure(0, weight=1)
 
-        nav = ttk.Frame(main, width=230, style="Nav.TFrame")
+        nav = ttk.Frame(main, width=NAV_WIDTH, style="Nav.TFrame")
         nav.grid(row=0, column=0, sticky="ns", padx=(0, 12))
 
         nav_inner = ttk.Frame(nav, style="NavInner.TFrame", padding=(12, 16))
@@ -611,7 +573,7 @@ class BinderApp:
             text="MajesticRP Binder",
             anchor="w",
             fill=THEME["fg"],
-            font=("Georgia", 22, "bold"),
+            font=(FONT_FAMILY, HEADER_FONT_SIZE, "bold"),
         )
         canvas.create_text(
             width - 16,
@@ -619,7 +581,7 @@ class BinderApp:
             text="Admin Toolkit",
             anchor="e",
             fill=THEME["muted"],
-            font=("Segoe UI", 11),
+            font=(FONT_FAMILY, BASE_FONT_SIZE),
         )
 
     def _schedule_header_redraw(self, event=None):
@@ -715,40 +677,48 @@ class BinderApp:
             active = THEME["accent"]
             canvas_bg = THEME["panel"]
             padding = (14, 9)
-            radius = 14
-            font = tkfont.Font(family="Segoe UI", size=10)
+            radius = 999
+            font = tkfont.Font(family=FONT_FAMILY, size=BASE_FONT_SIZE)
+            width = None
         elif kind == "nav_active":
             bg = THEME["accent_alt"]
             hover = THEME["accent"]
             active = THEME["accent"]
             canvas_bg = THEME["panel"]
             padding = (14, 9)
-            radius = 14
-            font = tkfont.Font(family="Segoe UI", size=10)
+            radius = 999
+            font = tkfont.Font(family=FONT_FAMILY, size=BASE_FONT_SIZE)
+            width = None
         elif kind == "switcher":
             bg = THEME["button"]
             hover = THEME["accent_alt"]
             active = THEME["accent"]
             canvas_bg = THEME["bg"]
             padding = (12, 6)
-            radius = 12
-            font = tkfont.Font(family="Segoe UI", size=10)
+            radius = 999
+            font = tkfont.Font(family=FONT_FAMILY, size=BASE_FONT_SIZE)
+            width = None
         elif kind == "primary":
             bg = THEME["accent"]
             hover = THEME["accent"]
             active = THEME["accent"]
             canvas_bg = THEME["bg"]
             padding = (12, 7)
-            radius = 12
-            font = tkfont.Font(family="Segoe UI", size=10, weight="bold")
+            radius = 999
+            font = tkfont.Font(family=FONT_FAMILY, size=BASE_FONT_SIZE, weight="bold")
+            width = None
         else:
             bg = THEME["button"]
             hover = THEME["accent_alt"]
             active = THEME["accent"]
             canvas_bg = THEME["bg"]
             padding = (12, 7)
-            radius = 12
-            font = tkfont.Font(family="Segoe UI", size=10)
+            radius = 999
+            font = tkfont.Font(family=FONT_FAMILY, size=BASE_FONT_SIZE)
+            width = None
+
+        if expand_x and kind not in ("nav", "nav_active"):
+            width = self._content_button_chars(font, padding)
 
         return RoundedButton(
             parent,
@@ -763,6 +733,7 @@ class BinderApp:
             padding=padding,
             radius=radius,
             expand_x=expand_x,
+            width=width,
         )
 
     def load_list(self, path):
@@ -929,12 +900,13 @@ class BinderApp:
 
         for title, filename in INFO_BUTTONS:
             path = os.path.join(HELP_DIR, filename)
-            self.create_button(
+            btn = self.create_button(
                 card,
                 text=title,
                 command=lambda t=title, p=path: self.open_text_window(t, p),
                 expand_x=True,
-            ).pack(fill="x", pady=4)
+            )
+            self.pack_content_button(btn, pady=4)
 
     def open_text_window(self, title, path):
         win = tk.Toplevel(self.root)
@@ -1374,20 +1346,33 @@ class BinderApp:
         main = ttk.Frame(card, style="CardBody.TFrame")
         main.pack(fill="both", expand=True)
 
-        self.variables_list = tk.Listbox(main, width=28)
-        self.variables_list.pack(side="left", fill="y", padx=(0, 12))
+        left = ttk.Frame(main, style="CardBody.TFrame")
+        left.pack(side="left", fill="y", padx=(0, 12))
+
+        self.variables_list_visible = False
+        btn_show_list = self.create_button(
+            left,
+            text="Добавленные",
+            command=self._toggle_variables_list,
+        )
+        btn_show_list.pack(pady=(0, 8))
+
+        self.variables_list = tk.Listbox(left, width=28)
         style_listbox(self.variables_list)
 
         right = ttk.Frame(main, style="CardBody.TFrame")
         right.pack(fill="both", expand=True)
 
-        ttk.Label(right, text="Имя", style="Card.TLabel").pack(anchor="w")
-        self.var_key = tk.Entry(right)
+        self.variables_form = ttk.Frame(right, style="CardBody.TFrame")
+        self.variables_form_visible = False
+
+        ttk.Label(self.variables_form, text="Имя", style="Card.TLabel").pack(anchor="w")
+        self.var_key = tk.Entry(self.variables_form)
         self.var_key.pack(fill="x", pady=(2, 10))
         style_entry(self.var_key)
 
-        ttk.Label(right, text="Значение", style="Card.TLabel").pack(anchor="w")
-        self.var_value = tk.Entry(right)
+        ttk.Label(self.variables_form, text="Значение", style="Card.TLabel").pack(anchor="w")
+        self.var_value = tk.Entry(self.variables_form)
         self.var_value.pack(fill="x", pady=(2, 10))
         style_entry(self.var_value)
 
@@ -1419,6 +1404,9 @@ class BinderApp:
         self.var_value.insert(0, str(self.variables.get(key, "")))
 
     def variables_add(self):
+        if not self.variables_form_visible:
+            self._show_variables_form(clear=True)
+            return
         key = self.var_key.get().strip()
         value = self.var_value.get().strip()
         if not key or not value:
@@ -1431,6 +1419,9 @@ class BinderApp:
         self.refresh_variables_list()
 
     def variables_update(self):
+        if not self.variables_form_visible:
+            self._show_variables_form()
+            return
         selection = self.variables_list.curselection()
         if not selection:
             messagebox.showwarning("Нет выбора", "Выберите элемент для изменения.")
@@ -1594,12 +1585,10 @@ class BinderApp:
             "Сохранение и восстановление данных биндера.",
         )
 
-        self.create_button(card, text="Экспортировать данные", command=self.export_data, expand_x=True).pack(
-            fill="x", pady=6
-        )
-        self.create_button(card, text="Импортировать данные", command=self.import_data, expand_x=True).pack(
-            fill="x", pady=6
-        )
+        btn_export = self.create_button(card, text="Экспортировать данные", command=self.export_data, expand_x=True)
+        self.pack_content_button(btn_export, pady=6)
+        btn_import = self.create_button(card, text="Импортировать данные", command=self.import_data, expand_x=True)
+        self.pack_content_button(btn_import, pady=6)
 
     def export_data(self):
         path = filedialog.asksaveasfilename(
@@ -1671,30 +1660,31 @@ class BinderApp:
             "Поведение приложения и Discord-данные.",
         )
 
-        self.create_button(card, text="Discord", command=self.open_discord_settings, expand_x=True).pack(
-            fill="x", pady=4
-        )
-        self.create_button(
+        btn_discord = self.create_button(card, text="Discord", command=self.open_discord_settings, expand_x=True)
+        self.pack_content_button(btn_discord, pady=4)
+        btn_behavior = self.create_button(
             card,
             text="Поведение биндера",
             command=lambda: self.open_settings_stub("Поведение биндера"),
             expand_x=True,
-        ).pack(fill="x", pady=4)
-        self.create_button(
+        )
+        self.pack_content_button(btn_behavior, pady=4)
+        btn_manage = self.create_button(
             card,
             text="Управление командами",
             command=lambda: self.show_screen("Команды"),
             expand_x=True,
-        ).pack(fill="x", pady=4)
-        self.create_button(
+        )
+        self.pack_content_button(btn_manage, pady=4)
+        btn_autofix = self.create_button(
             card,
             text="Автозамены",
             command=lambda: self.open_settings_stub("Автозамены"),
             expand_x=True,
-        ).pack(fill="x", pady=4)
-        self.create_button(card, text="Log", command=self.open_log_window, expand_x=True).pack(
-            fill="x", pady=4
         )
+        self.pack_content_button(btn_autofix, pady=4)
+        btn_log = self.create_button(card, text="Log", command=self.open_log_window, expand_x=True)
+        self.pack_content_button(btn_log, pady=4)
 
         options = ttk.Frame(card, style="CardBody.TFrame")
         options.pack(fill="x", pady=(16, 0))
