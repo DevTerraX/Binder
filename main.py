@@ -394,7 +394,7 @@ class BinderApp:
             return
         self._reload_binder_map()
         keyboard.hook(self._on_binder_key)
-        keyboard.on_press_key("enter", self._on_binder_enter, suppress=True)
+        keyboard.on_press_key("space", self._on_binder_space, suppress=True)
 
     def _reload_binder_map(self):
         items = []
@@ -421,16 +421,14 @@ class BinderApp:
         if key == "backspace":
             self._binder_buffer = self._binder_buffer[:-1]
             return
-        if key == "space":
-            self._binder_buffer += " "
-        elif len(key) == 1:
+        if len(key) == 1:
             self._binder_buffer += key
         elif key in ("tab",):
             self._binder_buffer += "\t"
         if len(self._binder_buffer) > self._binder_max_len:
             self._binder_buffer = self._binder_buffer[-self._binder_max_len :]
 
-    def _on_binder_enter(self, _event):
+    def _on_binder_space(self, _event):
         if self._binder_sending:
             return
         match = None
@@ -449,15 +447,14 @@ class BinderApp:
                 if payload["cursor_back"]:
                     for _ in range(payload["cursor_back"]):
                         keyboard.send("left")
-                if "{enter}" not in payload["text"].lower():
-                    keyboard.send("enter")
+                keyboard.send("space")
             finally:
                 self._binder_sending = False
             self._binder_buffer = ""
             return
         self._binder_sending = True
         try:
-            keyboard.send("enter")
+            keyboard.send("space")
         finally:
             self._binder_sending = False
         self._binder_buffer = ""
