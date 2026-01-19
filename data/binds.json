@@ -1,0 +1,11 @@
+[
+  {
+    "id": "1",
+    "type": "command",          
+    "trigger": ".res",           
+    "aliases": [".рес"],         
+    "response": "/rescue ",      
+    "enabled": true,
+    "ask_for": []                
+  }
+]

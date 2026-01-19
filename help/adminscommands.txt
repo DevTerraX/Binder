@@ -1,0 +1,159 @@
+========================================
+            admin level 1
+========================================
+/a [text]        — админ чат
+/toggleachat    — вкл/выкл админ чат
+/admins         — список админов
+/players        — информация о игроках
+
+/asms [id]      — написать игроку
+/id [id]        — dynamic → static
+/gid [sid]      — static → dynamic
+
+/tp [id]        — тп к игроку
+/gh [id]        — тп игрока к себе
+/mtp            — тп по розовой метке
+
+/esp | /esp3    — esp
+/gm             — бессмертие
+
+/dl             — инфо об авто
+/getcar [id]    — притянуть авто
+/delveh         — удалить авто
+
+========================================
+            admin level 2
+========================================
+/spec [id]      — слежка
+/specoff        — выйти из слежки
+
+/tpcar [id]     — тп к авто
+/incar [id]     — тп в авто
+/gtp            — тп по f3
+/tph [id]       — тп к дому
+/ctp [x y z]    — тп по координатам
+
+/hp [id] [n]    — установить hp
+/rescue [id]    — реснуть
+/pulltrunk [id] — из багажника
+/aeject [id]    — из авто
+
+/mute [sid]     — мут
+/kick [id]      — кик
+/ajail [sid]    — деморган
+
+/mutecheck      — проверка мута
+/ajailcheck     — проверка деморгана
+/bancheck       — проверка бана
+
+/aveh           — завести авто
+/lastdriver     — последний водитель
+
+/mydim          — мой dim
+/prange         — игроки в радиусе
+/frange         — семья в радиусе
+/netstat        — координаты
+
+/inv            — инвиз
+/chide          — инвиз от читов
+/showcheats     — чит-триггеры
+/removesnowman  — удалить снеговика
+/rid            — игроки в радиусе
+/rmtp           — тп радиус
+
+========================================
+            admin level 3
+========================================
+/ban [sid]      — бан персонажа
+/hardban [sid]  — бан аккаунта
+/warn           — варн
+/unwarn         — снять варн
+/unjail         — выпустить
+/skick          — тихий кик
+
+/freeze [id]    — заморозить
+/acuff [id]     — наручники
+/auncuff [id]   — снять наручники
+/unescort [id]  — снять залом
+
+/fuel [id] [n]  — заправить
+/repair         — починить
+/freezeveh      — заморозить авто
+/setcardim      — dim авто
+/spawncars      — респ фракции
+/spawnfamcars   — респ семьи
+
+/fmaterials     — маты фракции
+/ainfect        — состояние
+/resetskin      — сброс скина
+
+/rasms          — ответ в радиусе
+/rfreeze        — фриз радиус
+/rrepair        — ремонт радиус
+/rsetdim        — dim радиус
+/rgh            — тп радиус
+
+========================================
+            admin level 4
+========================================
+/auninvite      — уволить
+/afuninvite     — уволить (семья)
+/templeader     — временный лидер
+
+/eventon        — открыть ивент
+/eventoff       — закрыть ивент
+/fevent         — тп на ивент
+/feventon       — создать ивент
+/feventoff      — закрыть ивент
+/fback          — вернуться
+
+/veh            — заспавнить авто
+/fixcar         — вызов авто
+/excar          — взорвать авто
+
+/givelic        — выдать лицензию
+/takelic        — забрать лицензию
+/gw             — выдать оружие
+
+/rskick         — кик радиус
+/rfreezeveh     — фриз авто радиус
+/rveh           — авто радиус
+/rgtp           — тп радиус
+/racuff         — наручники радиус
+
+========================================
+            admin level 5
+========================================
+/skin           — выдать скин
+/rskin          — скин радиус
+/tempname       — временный ник
+/resettempname  — вернуть ник
+
+/unban          — снять свой бан
+/clearchat      — очистить чат
+/o              — глобал
+/togglegreenzone— зеленая зона
+
+/abizwar        — прокрас биз
+/tempfamily     — врем. лидер семьи
+/delvehrange    — удалить авто радиус
+
+========================================
+            admin level 6
+========================================
+/makeleader     — лидер фракции
+/setskill       — скиллы
+/setweather     — погода
+
+/setmaterials  — маты
+/startwfm       — начать взм
+/stopwfm        — закрыть взм
+
+/togglehorserace— скачки
+/getped         — тп ped
+
+/zzon [dim]     — вкл зеленку
+/zzoff [dim]    — выкл зеленку
+
+/givelawyerlic  — лиц. адвоката
+/takelawyerlic  — забрать лиц.
