@@ -4,6 +4,12 @@ from tkinter import font as tkfont
 from datetime import datetime
 import json
 import os
+import re
+
+try:
+    import keyboard
+except ImportError:
+    keyboard = None
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
@@ -356,9 +362,11 @@ class BinderApp:
         self.config = load_config()
         self.config.setdefault("auto_alias_ru", True)
         self.config.setdefault("auto_update_info", True)
+        self.config.setdefault("binder_enabled", True)
         save_config(self.config)
         self.setup_style()
         self.build_ui()
+        self._setup_binder_listener()
 
     def _content_button_chars(self, font, padding):
         char_width = font.measure("0") if font else 7
@@ -370,6 +378,115 @@ class BinderApp:
     def pack_content_button(self, button, pady=4):
         button.pack(anchor="w", pady=pady)
         return button
+
+    def _setup_binder_listener(self):
+        self._binder_buffer = ""
+        self._binder_max_len = 64
+        self._binder_sending = False
+        self._binder_map = {}
+        if not self.config.get("binder_enabled", True):
+            return
+        if keyboard is None:
+            messagebox.showwarning(
+                "Binder",
+                "Не найден модуль keyboard.\nУстановите: pip install keyboard",
+            )
+            return
+        self._reload_binder_map()
+        keyboard.hook(self._on_binder_key)
+        keyboard.on_press_key("enter", self._on_binder_enter, suppress=True)
+
+    def _reload_binder_map(self):
+        items = []
+        items.extend(load_json(BINDS_PATH, []))
+        items.extend(load_json(PHRASES_PATH, []))
+        mapping = {}
+        for item in items:
+            trigger = item.get("trigger")
+            if not trigger:
+                continue
+            text = self.bind_get_text(item)
+            if not text:
+                continue
+            mapping[trigger] = {
+                "text": text,
+                "cursor_back": int(item.get("cursor_back") or 0),
+            }
+        self._binder_map = dict(sorted(mapping.items(), key=lambda kv: len(kv[0]), reverse=True))
+
+    def _on_binder_key(self, event):
+        if self._binder_sending or event.event_type != "down":
+            return
+        key = event.name
+        if key == "backspace":
+            self._binder_buffer = self._binder_buffer[:-1]
+            return
+        if key == "space":
+            self._binder_buffer += " "
+        elif len(key) == 1:
+            self._binder_buffer += key
+        elif key in ("tab",):
+            self._binder_buffer += "\t"
+        if len(self._binder_buffer) > self._binder_max_len:
+            self._binder_buffer = self._binder_buffer[-self._binder_max_len :]
+
+    def _on_binder_enter(self, _event):
+        if self._binder_sending:
+            return
+        match = None
+        for trigger, payload in self._binder_map.items():
+            if self._binder_buffer.endswith(trigger):
+                match = (trigger, payload)
+                break
+        if match:
+            trigger, payload = match
+            self._binder_sending = True
+            try:
+                for _ in range(len(trigger)):
+                    keyboard.send("backspace")
+                text = self._expand_binder_text(payload["text"])
+                self._send_binder_text(text)
+                if payload["cursor_back"]:
+                    for _ in range(payload["cursor_back"]):
+                        keyboard.send("left")
+                if "{enter}" not in payload["text"].lower():
+                    keyboard.send("enter")
+            finally:
+                self._binder_sending = False
+            self._binder_buffer = ""
+            return
+        self._binder_sending = True
+        try:
+            keyboard.send("enter")
+        finally:
+            self._binder_sending = False
+        self._binder_buffer = ""
+
+    def _expand_binder_text(self, text):
+        variables = self.config.get("variables", {})
+        replacements = {
+            "qdis": self.config.get("discord_me", ""),
+            "gadis": self.config.get("discord_ga", ""),
+            "zgadis": self.config.get("discord_zga", ""),
+        }
+        def repl(match):
+            key = match.group(1)
+            if key in replacements:
+                return replacements[key]
+            return str(variables.get(key, match.group(0)))
+        return re.sub(r"%([^%]+)%", repl, text)
+
+    def _send_binder_text(self, text):
+        parts = re.split(r"(\{[^}]+\})", text)
+        for part in parts:
+            if not part:
+                continue
+            if part.startswith("{") and part.endswith("}"):
+                key = part[1:-1].strip()
+                if key:
+                    keyboard.send(key.lower())
+            else:
+                keyboard.write(part)
 
     def _show_variables_form(self, clear=False):
         if not getattr(self, "variables_form_visible", False):
@@ -1111,6 +1228,7 @@ class BinderApp:
         if ui["label"] == "Команды":
             self.maybe_add_alias(data_list, trigger, text, cursor_back, ui["label"])
         save_json(ui["path"], data_list)
+        self._reload_binder_map()
         self.append_log("Добавлено", f'{ui["label"]}: {trigger} -> {text}')
         self.update_info_files()
         self.refresh_bind_list(ui, data_list)
@@ -1148,6 +1266,7 @@ class BinderApp:
         if ui["label"] == "Команды":
             self.maybe_add_alias(data_list, trigger, text, cursor_back, ui["label"])
         save_json(ui["path"], data_list)
+        self._reload_binder_map()
         self.append_log(
             "Изменено",
             f'{ui["label"]}: {old_trigger} -> {old_text} | {trigger} -> {text}',
@@ -1173,6 +1292,7 @@ class BinderApp:
         old_text = self.bind_get_text(item)
         data_list.pop(idx)
         save_json(ui["path"], data_list)
+        self._reload_binder_map()
         self.append_log("Удалено", f'{ui["label"]}: {old_trigger} -> {old_text}')
         self.update_info_files()
         self.refresh_bind_list(ui, data_list)
@@ -1649,6 +1769,7 @@ class BinderApp:
                 save_config(self.config)
             self.refresh_profiles_list()
         self.profile_label.config(text=f"Активный профиль: {self.active_profile}")
+        self._reload_binder_map()
         self.update_info_files()
         self.append_log("Импорт", f"Данные из {os.path.basename(path)}")
         messagebox.showinfo("Готово", "Данные импортированы.")
