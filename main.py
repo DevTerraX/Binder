@@ -590,10 +590,11 @@ class BinderApp:
 
     def on_resize(self, _event):
         if hasattr(self, "header_canvas"):
-            self.draw_header()
+            self._schedule_header_redraw(_event)
 
     def draw_header(self):
         canvas = self.header_canvas
+        self._header_resize_after = None
         canvas.delete("all")
         width = self.root.winfo_width() or 1080
         height = int(canvas["height"])
@@ -620,6 +621,20 @@ class BinderApp:
             fill=THEME["muted"],
             font=("Segoe UI", 11),
         )
+
+    def _schedule_header_redraw(self, event=None):
+        if event is not None and event.widget is not self.root:
+            return False
+        width = event.width if event is not None else self.root.winfo_width()
+        height = event.height if event is not None else self.root.winfo_height()
+        size = (width, height)
+        if getattr(self, "_header_last_size", None) == size:
+            return True
+        self._header_last_size = size
+        if getattr(self, "_header_resize_after", None):
+            self.root.after_cancel(self._header_resize_after)
+        self._header_resize_after = self.root.after(60, self.draw_header)
+        return True
 
     def create_screens(self):
         self.screens = {}
