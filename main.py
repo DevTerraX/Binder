@@ -1096,26 +1096,26 @@ class BinderApp:
 
         ttk.Label(right, text="Триггер", style="Card.TLabel").pack(anchor="w")
         trigger_entry = tk.Entry(right)
-        trigger_entry.pack(fill="x", pady=(2, 10))
+        trigger_entry.pack(fill="x", pady=(2, 8))
         style_entry(trigger_entry)
 
         ttk.Label(right, text="Текст", style="Card.TLabel").pack(anchor="w")
-        text_entry = tk.Text(right, height=8)
-        text_entry.pack(fill="both", expand=True)
+        text_entry = tk.Text(right, height=6)
+        text_entry.pack(fill="x", pady=(2, 8))
         style_text(text_entry)
 
-        ttk.Label(right, text="Сдвиг курсора", style="Card.TLabel").pack(anchor="w", pady=(10, 0))
+        ttk.Label(right, text="Сдвиг курсора", style="Card.TLabel").pack(anchor="w", pady=(6, 0))
         cursor_entry = tk.Entry(right)
-        cursor_entry.pack(fill="x", pady=(2, 10))
+        cursor_entry.pack(fill="x", pady=(2, 8))
         style_entry(cursor_entry)
         ttk.Label(
             right,
             text="Число шагов назад после вставки текста",
             style="CardMuted.TLabel",
-        ).pack(anchor="w", pady=(0, 10))
+        ).pack(anchor="w", pady=(0, 8))
 
         btns = ttk.Frame(right, style="CardBody.TFrame")
-        btns.pack(pady=10)
+        btns.pack(pady=8, anchor="w")
 
         ui = {
             "listbox": listbox,
